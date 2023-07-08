@@ -1,0 +1,60 @@
+html {
+    background: url('../assets/svg/background.svg');
+    background-blend-mode: multiply;
+    background-color: #22222275;
+    background-size: cover;
+
+}
+
+body{
+    margin: 0;
+}
+
+
+.LogoCompletoDiv{
+    display: inline-flex;
+    margin-top: -20vh;
+    /* margin-inline-start: 10vw; */
+}
+
+.ButtonStart{
+    background: None;
+    border: 0;
+    margin-bottom: 30vh;
+    margin-left: 10rem;
+}
+
+.ButtonStart a{
+    margin: 2.2rem;
+    border-radius: 30px;
+    border: 0px;
+    padding: 0.6rem 1.5rem;
+    font-size: 3rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease 0s
+}
+
+.ButtonStart a::after{
+    content: "";
+    position: absolute;
+    left: calc(-0.5rem - 1px);
+    top: calc(-0.5rem - 1px);
+    width: calc(100% + 1rem);
+    height: calc(100% + 1rem);
+    border: 2px solid rgb(251, 251, 251);
+    border-radius: 3rem;
+}
+
+.iconPlay{
+    margin-left: 1rem;
+}
+.containerHome{
+    height: calc(100vh - 53px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
