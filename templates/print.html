@@ -33,14 +33,14 @@
         .white_content { 
             display: none; 
             position: absolute; 
-            top: 25%; 
-            /* left: 25%;  */
+            top: 25%;
             width: 90%; 
             height: 50%; 
             padding: 20px; 
-            border: 10px solid orange; 
-            background-color: white; 
-            z-index:1002; 
+            border: 5px solid #288514;
+            border-radius: 10px; 
+            background-color: #000000; 
+            z-index:1002;
         } 
         .ui_button {
                 display: inline-block;
@@ -60,9 +60,12 @@
         }
 
         .button {
-            color: white;
-            background-color: rgba(91, 56, 218, 0.911);
-            cursor: pointer;
+            margin-left: 10px;
+            height: 40px;
+            margin-top: 12px;
+            background-color: #288514;
+            color: #fff;
+            border-radius: 20px;
         }
         .button:hover{
             background-color:#AAA;
@@ -70,6 +73,24 @@
 
         .div_net_type li.select {
             background: #006633;
+        }
+        #selecionarImagem{
+            margin-top: 12px;
+            background-color: #288514;
+            color: #fff;
+            border-radius: 20px;
+        }
+        @media only screen and (max-device-width: 900px) {
+            html{
+                margin-bottom: 90vh;
+            }
+            body{
+                overflow-x: clip;
+            }
+            .white_content{
+                width: 84%;
+                height: auto;
+            }
         }
     </style> 
     <script>
@@ -351,7 +372,7 @@
             },
             success:function(data){
                 var count = parseInt(data)+1;
-                if(confirm("{{lang['printCode']}}"+count+"{{lang['confirmPrint']}}") == false)
+                if(confirm("{{lang['printCode']}} "+count+" {{lang['confirmPrint']}}") == false)
                 {
                     return;
                 }
@@ -439,6 +460,7 @@
                 //exportCanvasAsPNG(canvas4,"canvasF.png");
                 //exportCanvasAsPNG(canvas3,"canvasT.png");
                 var pic = canvas4.toDataURL("image/png");
+                console.log(`Weight: ${print_size.width} e Height:${print_size.height}.`)
                 $.ajax({
                 type:"POST",
                 url:"/photo/print",
@@ -617,7 +639,7 @@
             document.getElementById('net_img_light').style.display='block';
             document.getElementById('net_img_fade').style.display='block';
             items = document.getElementsByClassName('title_item_class');
-            items[0].style.backgroundColor = '#008888';
+            items[0].style.backgroundColor = '#288514';
             var ulObj = document.getElementById('div_net_ul');
             $.ajax({
 				url:"/net_img_type",
@@ -678,7 +700,7 @@
                         // liObj.setAttribute("url_text",'http://cloudcutter.oss-accelerate.aliyuncs.com'+images[i]);
                         // liObj.setAttribute('class','net_img_li');
                         // ulObj.appendChild(liObj);
-                        
+
                     }
                     
 		        },
@@ -748,7 +770,7 @@
             items = document.getElementsByClassName('title_item_class');
             for(var i=0;i<items.length;i++) {
                 if(items[i].id == id) {
-                    items[i].style.backgroundColor = '#008888';
+                    items[i].style.backgroundColor = '#288514';
 
                     var ulObj = document.getElementById('div_net_ul');
                     ulObj.innerHTML = '';
@@ -793,7 +815,7 @@
                     }
                     
                 } else {
-                    items[i].style.backgroundColor = 'white';
+                    items[i].style.backgroundColor = '#000000';
                 }
             }
         }
@@ -808,26 +830,30 @@
     <div>
         <form action="" enctype=multipart/form-data id='form1'  target="iframe">
             <div style="flex-direction: row;">
-                <label class="ui_button ui_button_primary" for="xFile" style='margin-top:12px'>{{lang['localImg']}}</label>
+                <label id="selecionarImagem" class="ui_button ui_button_primary" for="xFile" style='margin-top:12px'>Selecionar Imagem</label>
                 <form><input type="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);" onchange="handleFiles(this.files)"></form>
-                <button style='margin-left: 10px;height:40px' class='button' onclick = "netPicClick()">{{lang['netImg']}}</button>
+                <button style='margin-left: 10px;height:40px' class='button' onclick = "netPicClick()">Banco de Imagens</button>
                 <!-- <button id="btnText" disabled='true' class='button' style='margin-left: 10px;height:40px' onclick = "textClick()">文字</button> -->
-                <button class='button' onclick="submitClick({{margin}})" style="margin-left: 10px;height:40px">{{lang['submit']}}</button>
+                <button class='button' onclick="submitClick({{margin}})" style="margin-left: 10px; height:40px; padding-inline: 20px;">Enviar</button>
             </div>
-            <div id="net_img_light" class="white_content">{{lang['selNetImg']}} 
-                <a href = "javascript:void(0)" onclick = "netImgDlgClose()">{{lang['apply']}}</a>
+            <div id="net_img_light" class="white_content">{{lang['selNetImg']}}
+                <div style="display:flex; justify-content:end;">
+                    <a href = "javascript:void(0)" onclick = "netImgDlgClose()"
+                    style="text-decoration: none;
+                        color: #ffffff;
+                        background-color: #ad2129;
+                        padding: 5px;
+                        padding-inline: 10px;
+                        border-radius: 30px;
+                        ">
+                        Fechar
+                    </a>
+                </div>
                 <div style="overflow: auto;">
                     <ul id="div_net_type" class='tab_title' style="list-style:none;overflow: auto;">
-                        {% for item in net_img %}
-                            {% if lang['id'] == 0 %}
-                            <li onclick='netTitleClick(this.id,{{item.images}})' id='{{item.chn}}' class='title_item_class' style="float:left;margin-left:20px;overflow: auto;"> {{item.chn}}</li>
-                            {% elif lang['id']==1 %}
-                            <li onclick='netTitleClick(this.id,{{item.images}})' id='{{item.eng}}' class='title_item_class' style="float:left;margin-left:20px;overflow: auto;"> {{item.eng}}</li>
-                            {% elif lang['id']==2 %}
-                            <li onclick='netTitleClick(this.id,{{item.images}})' id='{{item.esp}}' class='title_item_class' style="float:left;margin-left:20px;overflow: auto;"> {{item.esp}}</li>
-                            {% elif lang['id']==3 %}
-                            <li onclick='netTitleClick(this.id,{{item.images}})' id='{{item.por}}' class='title_item_class' style="float:left;margin-left:20px;overflow: auto;"> {{item.por}}</li>
-                            {% endif %}
+                        {% for item in net_img %} 
+                            <li onclick='netTitleClick(this.id,{{item.images}})' id='{{item.por}}' class='title_item_class' 
+                            style="float:left;margin-left:20px;overflow: auto; border-radius: 20px; color: #fff; padding:5px;"> {{item.por}}</li>
                         {% endfor %}
                     </ul>
                 </div>
